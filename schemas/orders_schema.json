@@ -1,0 +1,188 @@
+{
+  "bsonType": "object",
+  "required": [
+    "id_order",
+    "order_date",
+    "status",
+    "customer",
+    "items",
+    "payment",
+    "total_amount"
+  ],
+  "properties": {
+    "id_order": {
+      "bsonType": "string",
+      "description": "Unique business order identifier"
+    },
+    "order_date": {
+      "bsonType": "string",
+      "description": "ISO8601 formatted timestamp"
+    },
+    "status": {
+      "enum": [
+        "قيد الانتظار",
+        "مؤكد",
+        "قيد الشحن",
+        "تم التسليم",
+        "مرتجع",
+        "ملغي"
+      ]
+    },
+    "customer": {
+      "bsonType": "object",
+      "required": [
+        "customer_id",
+        "name",
+        "phone",
+        "email",
+        "address"
+      ],
+      "properties": {
+        "customer_id": {
+          "bsonType": "string"
+        },
+        "name": {
+          "bsonType": "string"
+        },
+        "phone": {
+          "bsonType": "string",
+          "pattern": "^(967)?(77|73|70|71)\\d{7}$"
+        },
+        "email": {
+          "bsonType": "string",
+          "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+        },
+        "address": {
+          "bsonType": "object",
+          "required": [
+            "city",
+            "district"
+          ],
+          "properties": {
+            "city": {
+              "bsonType": "string"
+            },
+            "district": {
+              "bsonType": "string"
+            },
+            "street": {
+              "bsonType": "string"
+            },
+            "details": {
+              "bsonType": "string"
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "bsonType": "array",
+      "minItems": 1,
+      "items": {
+        "bsonType": "object",
+        "required": [
+          "sku",
+          "name",
+          "qty",
+          "unit_price",
+          "total"
+        ],
+        "properties": {
+          "sku": {
+            "bsonType": "string"
+          },
+          "name": {
+            "bsonType": "string"
+          },
+          "qty": {
+            "bsonType": "int",
+            "minimum": 1
+          },
+          "unit_price": {
+            "bsonType": [
+              "double",
+              "decimal",
+              "int"
+            ],
+            "minimum": 0
+          },
+          "total": {
+            "bsonType": [
+              "double",
+              "decimal",
+              "int"
+            ],
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "delivery": {
+      "bsonType": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "عادي",
+            "سريع"
+          ]
+        },
+        "cost": {
+          "bsonType": [
+            "double",
+            "decimal",
+            "int"
+          ]
+        },
+        "expected_date": {
+          "bsonType": "string"
+        }
+      }
+    },
+    "payment": {
+      "bsonType": "object",
+      "required": [
+        "method",
+        "status",
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "نقدًا عند التسليم",
+            "بطاقة",
+            "محفظة إلكترونية"
+          ]
+        },
+        "status": {
+          "enum": [
+            "بانتظار الدفع",
+            "تم الدفع",
+            "مرفوض"
+          ]
+        },
+        "amount": {
+          "bsonType": [
+            "double",
+            "decimal",
+            "int"
+          ],
+          "minimum": 0
+        },
+        "currency": {
+          "enum": [
+            "YER"
+          ]
+        }
+      }
+    },
+    "total_amount": {
+      "bsonType": [
+        "double",
+        "decimal",
+        "int"
+      ],
+      "minimum": 0
+    }
+  }
+}
